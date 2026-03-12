@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Personio Time Tracker Auto-Fill",
+    "version": "1.0",
+    "description": "Pre-fills timesheets with configurable hours.",
+    "permissions": [
+        "storage"
+    ],
+    "action": {
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*.personio.com/attendance*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}

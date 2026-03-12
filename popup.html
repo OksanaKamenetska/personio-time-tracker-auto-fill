@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            width: 260px;
+            padding: 15px;
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #333;
+        }
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .slot {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slot label {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #555;
+        }
+
+        .inputs {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        input[type="time"] {
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            width: 42%;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #2160ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #1a4ecc;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Auto-Fill Settings</h3>
+
+    <div class="slot">
+        <label>Work Slot 1</label>
+        <div class="inputs">
+            <input type="time" id="w1-start" required> <span>to</span> <input type="time" id="w1-end" required>
+        </div>
+    </div>
+
+    <div class="slot">
+        <label>Break</label>
+        <div class="inputs">
+            <input type="time" id="b-start" required> <span>to</span> <input type="time" id="b-end" required>
+        </div>
+    </div>
+
+    <div class="slot">
+        <label>Work Slot 2</label>
+        <div class="inputs">
+            <input type="time" id="w2-start" required> <span>to</span> <input type="time" id="w2-end" required>
+        </div>
+    </div>
+
+    <div class="slot" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+        <label>Automation Settings</label>
+
+        <div style="margin-bottom: 10px;">
+            <label style="font-weight: normal; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="fill-until-today"> Fill all empty days until today
+            </label>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: normal; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" id="auto-save"> Auto-Save tracked time
+            </label>
+        </div>
+
+        <div class="inputs" style="justify-content: flex-start; gap: 10px;">
+            <span style="font-size: 13px; color: #555;">Max days:</span>
+            <input type="number" id="max-days" min="1" max="31" required style="width: 60px; padding: 4px;">
+        </div>
+    </div>
+
+    <div class="slot" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+        <label>Default Project</label>
+        <div class="inputs">
+            <input type="text" id="project-name" placeholder="e.g., 4+1 or Management"
+                style="width: 100%; box-sizing: border-box; padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+        </div>
+        <small style="color: #666; font-size: 11px; margin-top: 4px;">Must match the name in the dropdown
+            exactly.</small>
+    </div>
+
+    <button id="save-btn">Save Settings</button>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
