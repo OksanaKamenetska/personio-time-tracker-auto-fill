@@ -1,5 +1,17 @@
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+const TRANSLATIONS = {
+    en: { hours: 'hours', minutes: 'minutes', requestTimeOff: 'Request time off' },
+    de: { hours: 'Stunden', minutes: 'Minuten', requestTimeOff: 'Abwesenheit beantragen' },
+};
+
+const getPageLang = () => {
+    const lang = document.documentElement.lang?.slice(0, 2)?.toLowerCase();
+    return TRANSLATIONS[lang] ? lang : 'en';
+};
+
+const t = () => TRANSLATIONS[getPageLang()];
+
 const getSettings = () => new Promise(resolve => {
     const defaults = {
         w1Start: '08:00', w1End: '12:00',
@@ -38,8 +50,8 @@ const fillTime = async (form, periodIndex, boundary, hours, minutes) => {
     const group = form.querySelector(`[data-test-id="periods.${periodIndex}.${boundary}"]`);
     if (!group) return;
 
-    const hourSpan = group.querySelector('[aria-label="hours"]');
-    const minuteSpan = group.querySelector('[aria-label="minutes"]');
+    const hourSpan = group.querySelector(`[aria-label="${t().hours}"]`);
+    const minuteSpan = group.querySelector(`[aria-label="${t().minutes}"]`);
 
     await humanType(hourSpan, hours);
     await humanType(minuteSpan, minutes);
@@ -225,7 +237,7 @@ function injectButton() {
     if (document.getElementById('auto-fill-btn')) return;
 
     const allButtons = Array.from(document.querySelectorAll('button'));
-    const requestTimeOffBtn = allButtons.find(btn => btn.innerText.trim() === 'Request time off');
+    const requestTimeOffBtn = allButtons.find(btn => btn.innerText.trim() === t().requestTimeOff);
     if (!requestTimeOffBtn) return;
 
     const container = requestTimeOffBtn.parentElement;
