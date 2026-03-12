@@ -193,7 +193,10 @@ const runAutoFill = async () => {
     }
 
     if (btn) btn.innerText = '🤖 Auto-Fill Empty Days';
-    alert(`Auto-fill complete! Pre-filled ${daysFilled} day(s). Please review and save manually.`);
+    const saveNote = settings.autoSave
+        ? 'All entries were saved automatically.'
+        : 'Please review and save manually.';
+    alert(`Auto-fill complete! Pre-filled ${daysFilled} day(s). ${saveNote}`);
 };
 
 function injectButton() {
