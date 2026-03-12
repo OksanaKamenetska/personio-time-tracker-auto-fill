@@ -132,10 +132,17 @@ const fillPeriods = async (row, settings) => {
     }
 };
 
+let autoFillCancelled = false;
+
 const runAutoFill = async () => {
     const btn = document.getElementById('auto-fill-btn');
-    if (btn) btn.innerText = '🤖 Auto-Filling... Please wait';
+    if (btn) {
+        btn.innerText = '⏹ Stop Auto-Fill';
+        btn.removeEventListener('click', runAutoFill);
+        btn.addEventListener('click', stopAutoFill);
+    }
 
+    autoFillCancelled = false;
     const settings = await getSettings();
     let daysFilled = 0;
 
@@ -148,6 +155,11 @@ const runAutoFill = async () => {
     );
 
     for (const row of validRows) {
+        if (autoFillCancelled) {
+            console.log("Auto-fill cancelled by user.");
+            break;
+        }
+
         // Condition 1: Standard maxDays limit (if 'until today' is unchecked)
         if (!settings.fillUntilToday && daysFilled >= settings.maxDays) {
             console.log("Max days limit reached. Stopping.");
@@ -192,11 +204,21 @@ const runAutoFill = async () => {
         await sleep(200);
     }
 
-    if (btn) btn.innerText = '🤖 Auto-Fill Empty Days';
+    if (btn) {
+        btn.innerText = '🤖 Auto-Fill Empty Days';
+        btn.removeEventListener('click', stopAutoFill);
+        btn.addEventListener('click', runAutoFill);
+    }
+
+    const status = autoFillCancelled ? 'Auto-fill stopped!' : 'Auto-fill complete!';
     const saveNote = settings.autoSave
         ? 'All entries were saved automatically.'
         : 'Please review and save manually.';
-    alert(`Auto-fill complete! Pre-filled ${daysFilled} day(s). ${saveNote}`);
+    alert(`${status} Pre-filled ${daysFilled} day(s). ${saveNote}`);
+};
+
+const stopAutoFill = () => {
+    autoFillCancelled = true;
 };
 
 function injectButton() {
